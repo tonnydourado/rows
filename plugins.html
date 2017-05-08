@@ -1,0 +1,132 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Plugins &#8212; rows 0.3.1dev0 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.3.1dev0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Locale" href="locale.html" />
+    <link rel="prev" title="Command-Line Interface" href="command-line-interface.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="plugins">
+<span id="plugins"></span><h1>Plugins<a class="headerlink" href="#plugins" title="Permalink to this headline">¶</a></h1>
+<p>The idea behing plugins is very simple: you write a little piece of code which
+extracts data from/to some specific format and the library will do the other
+tasks for you, such as detecting and converting data types. So writing a plugin
+is as easy as reading from/writing to the file format you want. Currently we
+have the following plugins:</p>
+<ul class="simple">
+<li>CSV: use <code class="docutils literal"><span class="pre">rows.import_from_csv</span></code> and <code class="docutils literal"><span class="pre">rows.export_to_csv</span></code> (dependencies are
+installed by default)</li>
+<li>TXT: use <code class="docutils literal"><span class="pre">rows.export_to_txt</span></code> (no dependencies)</li>
+<li>JSON: use <code class="docutils literal"><span class="pre">rows.import_from_json</span></code> and <code class="docutils literal"><span class="pre">rows.export_to_json</span></code> (no dependencies)</li>
+<li>HTML: use <code class="docutils literal"><span class="pre">rows.import_from_html</span></code> and <code class="docutils literal"><span class="pre">rows.export_to_html</span></code> (dependencies
+must be installed with <code class="docutils literal"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">rows[html]</span></code>)</li>
+<li>XPath: use <code class="docutils literal"><span class="pre">rows.import_from_xpath</span></code> passing the following arguments:
+<code class="docutils literal"><span class="pre">filename_or_fobj</span></code>, <code class="docutils literal"><span class="pre">rows_xpath</span></code> and <code class="docutils literal"><span class="pre">fields_xpath</span></code> (dependencies must be
+installed with <code class="docutils literal"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">rows[xpath]</span></code>) &#8211; see an example in
+<code class="docutils literal"><span class="pre">examples/library/ecuador_radiodifusoras.py</span></code>.</li>
+<li>Parquet: use <code class="docutils literal"><span class="pre">rows.import_from_parquet</span></code> passing the filename (dependencies
+must be installed with <code class="docutils literal"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">rows[parquet]</span></code> and if the data is
+compressed using snappy you also need to install <code class="docutils literal"><span class="pre">rows[parquet-snappy]</span></code> and
+the <code class="docutils literal"><span class="pre">libsnappy-dev</span></code> system library) &#8211; read [this blog post][blog-rows-parquet]
+for more details and one example</li>
+<li>XLS: use <code class="docutils literal"><span class="pre">rows.import_from_xls</span></code> and <code class="docutils literal"><span class="pre">rows.export_to_xls</span></code> (dependencies must
+be installed with <code class="docutils literal"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">rows[xls]</span></code>)</li>
+<li>XLSX: use <code class="docutils literal"><span class="pre">rows.import_from_xlsx</span></code> and <code class="docutils literal"><span class="pre">rows.export_to_xlsx</span></code> (dependencies
+must be installed with <code class="docutils literal"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">rows[xlsx]</span></code>)</li>
+<li>SQLite: use <code class="docutils literal"><span class="pre">rows.import_from_sqlite</span></code> and <code class="docutils literal"><span class="pre">rows.export_to_sqlite</span></code> (no
+dependencies)</li>
+<li>ODS: use <code class="docutils literal"><span class="pre">rows.import_from_ods</span></code> (dependencies must be installed with <code class="docutils literal"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">rows[ods]</span></code>)</li>
+</ul>
+<p>More plugins are coming and we&#8217;re going to re-design the plugin interface so
+you can create and distribute your own in a better way. Feel free <a class="reference internal" href="contributing.html"><span class="doc">to</span></a>. :-)</p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="command-line-interface.html" title="previous chapter">Command-Line Interface</a></li>
+      <li>Next: <a href="locale.html" title="next chapter">Locale</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/plugins.md.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2014-2017, Álvaro Justen.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.5.5</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
+      
+      |
+      <a href="_sources/plugins.md.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

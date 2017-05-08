@@ -1,0 +1,217 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Welcome to rows documentation! &#8212; rows 0.3.1dev0 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.3.1dev0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Installing rows" href="installing.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="welcome-to-rows-documentation">
+<span id="welcome-to-rows-documentation"></span><h1>Welcome to rows documentation!<a class="headerlink" href="#welcome-to-rows-documentation" title="Permalink to this headline">¶</a></h1>
+<p>No matter in which format your tabular data is: <code class="docutils literal"><span class="pre">rows</span></code> will import it,
+automatically detect types and give you high-level Python objects so you can
+start <strong>working with the data</strong> instead of <strong>trying to parse it</strong>. It is also
+locale-and-unicode aware. :)</p>
+<p>Have you ever lost your precious time reading a CSV that had a different
+dialect? Or trying to learn a whole new library API to read a new tabular data
+format your customer just sent? You&#8217;ve got gray hair when trying to access
+some data and the only answer was <code class="docutils literal"><span class="pre">UnicodeDecodeError</span></code>? So,
+<a class="reference external" href="https://github.com/turicas/rows/">rows</a> was custom made for you - run <code class="docutils literal"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">rows</span></code> and be happy! :-)</p>
+<blockquote>
+<div>Note: if you&#8217;re using <a class="reference external" href="https://github.com/turicas/rows/">rows</a> in some project please <a class="reference external" href="https://github.com/turicas/rows/issues/103">tell
+us</a>! :-)</div></blockquote>
+<div class="section" id="core-values">
+<span id="core-values"></span><h2>Core Values<a class="headerlink" href="#core-values" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>Simple, easy and flexible API</li>
+<li>Code quality</li>
+<li>Don&#8217;t Repeat Yourself</li>
+</ul>
+</div>
+<div class="section" id="contents">
+<span id="contents"></span><h2>Contents<a class="headerlink" href="#contents" title="Permalink to this headline">¶</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="installing.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quick-start.html">Quick-start guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="command-line-interface.html">Command-line interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="plugins.html">Supported plugins</a></li>
+<li class="toctree-l1"><a class="reference internal" href="locale.html">Using locale when importing data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="operations.html">Table operations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="links.html">Useful links</a></li>
+</ul>
+</div>
+</div>
+<div class="section" id="basic-usage">
+<span id="basic-usage"></span><h2>Basic Usage<a class="headerlink" href="#basic-usage" title="Permalink to this headline">¶</a></h2>
+<p><code class="docutils literal"><span class="pre">rows</span></code> will import tabular data in any of the supported formats, automatically
+detect/convert encoding and column types for you, so you can focus on work on
+the data.</p>
+<p>Given a CSV file like this:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">state</span><span class="p">,</span><span class="n">city</span><span class="p">,</span><span class="n">inhabitants</span><span class="p">,</span><span class="n">area</span>
+<span class="n">AC</span><span class="p">,</span><span class="n">Acrelândia</span><span class="p">,</span><span class="mi">12538</span><span class="p">,</span><span class="mf">1807.92</span>
+<span class="n">AC</span><span class="p">,</span><span class="n">Assis</span> <span class="n">Brasil</span><span class="p">,</span><span class="mi">6072</span><span class="p">,</span><span class="mf">4974.18</span>
+<span class="n">AC</span><span class="p">,</span><span class="n">Brasiléia</span><span class="p">,</span><span class="mi">21398</span><span class="p">,</span><span class="mf">3916.5</span>
+<span class="n">AC</span><span class="p">,</span><span class="n">Bujari</span><span class="p">,</span><span class="mi">8471</span><span class="p">,</span><span class="mf">3034.87</span>
+<span class="n">AC</span><span class="p">,</span><span class="n">Capixaba</span><span class="p">,</span><span class="mi">8798</span><span class="p">,</span><span class="mf">1702.58</span>
+<span class="p">[</span><span class="o">...</span><span class="p">]</span>
+<span class="n">RJ</span><span class="p">,</span><span class="n">Angra</span> <span class="n">dos</span> <span class="n">Reis</span><span class="p">,</span><span class="mi">169511</span><span class="p">,</span><span class="mf">825.09</span>
+<span class="n">RJ</span><span class="p">,</span><span class="n">Aperibé</span><span class="p">,</span><span class="mi">10213</span><span class="p">,</span><span class="mf">94.64</span>
+<span class="n">RJ</span><span class="p">,</span><span class="n">Araruama</span><span class="p">,</span><span class="mi">112008</span><span class="p">,</span><span class="mf">638.02</span>
+<span class="n">RJ</span><span class="p">,</span><span class="n">Areal</span><span class="p">,</span><span class="mi">11423</span><span class="p">,</span><span class="mf">110.92</span>
+<span class="n">RJ</span><span class="p">,</span><span class="n">Armação</span> <span class="n">dos</span> <span class="n">Búzios</span><span class="p">,</span><span class="mi">27560</span><span class="p">,</span><span class="mf">70.28</span>
+<span class="p">[</span><span class="o">...</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>You can use <code class="docutils literal"><span class="pre">rows</span></code> to do some math with it without the need to convert
+anything:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">rows</span>
+
+<span class="n">cities</span> <span class="o">=</span> <span class="n">rows</span><span class="o">.</span><span class="n">import_from_csv</span><span class="p">(</span><span class="s1">&#39;data/brazilian-cities.csv&#39;</span><span class="p">)</span>
+<span class="n">rio_biggest_cities</span> <span class="o">=</span> <span class="p">[</span><span class="n">city</span> <span class="k">for</span> <span class="n">city</span> <span class="ow">in</span> <span class="n">cities</span>
+                      <span class="k">if</span> <span class="n">city</span><span class="o">.</span><span class="n">state</span> <span class="o">==</span> <span class="s1">&#39;RJ&#39;</span> <span class="ow">and</span>
+                         <span class="n">city</span><span class="o">.</span><span class="n">inhabitants</span> <span class="o">&gt;</span> <span class="mi">500000</span><span class="p">]</span>
+<span class="k">for</span> <span class="n">city</span> <span class="ow">in</span> <span class="n">rio_biggest_cities</span><span class="p">:</span>
+    <span class="k">print</span><span class="p">(</span><span class="s1">&#39;{} ({:5.2f} ppl/km²)&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">city</span><span class="o">.</span><span class="n">city</span><span class="p">,</span>
+                                        <span class="n">city</span><span class="o">.</span><span class="n">inhabitants</span> <span class="o">/</span> <span class="n">city</span><span class="o">.</span><span class="n">area</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>The result:</p>
+<div class="highlight-text"><div class="highlight"><pre><span></span>Duque de Caxias (1828.51 ppl/km²)
+Nova Iguaçu (1527.59 ppl/km²)
+Rio de Janeiro (5265.81 ppl/km²)
+São Gonçalo (4035.88 ppl/km²)
+</pre></div>
+</div>
+<p>The library can also export data in any of the available plugins and have a
+command-line interface for more common tasks.</p>
+<p>For more examples, please refer to our <a class="reference internal" href="quick-start.html"><span class="doc">quick-start guide</span></a>.</p>
+</div>
+<div class="section" id="architecture">
+<span id="architecture"></span><h2>Architecture<a class="headerlink" href="#architecture" title="Permalink to this headline">¶</a></h2>
+<p>The library is composed by:</p>
+<ul class="simple">
+<li>A common interface to tabular data (the <code class="docutils literal"><span class="pre">Table</span></code> class)</li>
+<li>A set of plugins to populate <code class="docutils literal"><span class="pre">Table</span></code> objects (CSV, XLS, XLSX, HTML and XPath,
+Parquet, TXT, JSON, SQLite &#8211; more coming soon!)</li>
+<li>A set of common fields (such as <code class="docutils literal"><span class="pre">BoolField</span></code>, <code class="docutils literal"><span class="pre">IntegerField</span></code>) which know
+exactly how to serialize and deserialize data for each object type you&#8217;ll get</li>
+<li>A set of utilities (such as field type recognition) to help working with
+tabular data</li>
+<li>A command-line interface so you can have easy access to the most used
+features: convert between formats, sum, join and sort tables.</li>
+</ul>
+</div>
+<div class="section" id="semantic-versioning">
+<span id="semantic-versioning"></span><h2>Semantic Versioning<a class="headerlink" href="#semantic-versioning" title="Permalink to this headline">¶</a></h2>
+<p><code class="docutils literal"><span class="pre">rows</span></code> uses <a class="reference external" href="http://semver.org/">semantic versioning</a>. Note that it means we do not
+guarantee API backwards compatibility on <code class="docutils literal"><span class="pre">0.x.y</span></code> versions.</p>
+</div>
+<div class="section" id="license">
+<span id="license"></span><h2>License<a class="headerlink" href="#license" title="Permalink to this headline">¶</a></h2>
+<p>This library is released under the <a class="reference external" href="http://www.gnu.org/licenses/gpl-3.0.html">GNU General Public License version
+3</a>.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="#">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Welcome to rows documentation!</a><ul>
+<li><a class="reference internal" href="#core-values">Core Values</a></li>
+<li><a class="reference internal" href="#contents">Contents</a></li>
+<li><a class="reference internal" href="#basic-usage">Basic Usage</a></li>
+<li><a class="reference internal" href="#architecture">Architecture</a></li>
+<li><a class="reference internal" href="#semantic-versioning">Semantic Versioning</a></li>
+<li><a class="reference internal" href="#license">License</a></li>
+</ul>
+</li>
+</ul>
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="#">Documentation overview</a><ul>
+      <li>Next: <a href="installing.html" title="next chapter">Installing rows</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/index.md.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2014-2017, Álvaro Justen.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.5.5</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
+      
+      |
+      <a href="_sources/index.md.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
