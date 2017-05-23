@@ -73,15 +73,13 @@ def import_from_csv(filename_or_fobj, encoding='utf-8', dialect=None,
 
 def export_to_csv(table, filename_or_fobj=None, encoding='utf-8',
                   dialect=unicodecsv.excel, *args, **kwargs):
-    '''Export a `rows.Table` to a CSV file
+    '''Export a table to a CSV file
 
     If a file-like object is provided it MUST be in binary mode, like in
-    `open(filename, mode='wb')`.
-    If not filename/fobj is provided, the function returns a string with CSV
-    contents.
+    `open(filename, mode='wb')`. If neither filename nor fobj is provided the
+    function will return a string with the CSV contents.
     '''
     # TODO: will work only if table.fields is OrderedDict
-    # TODO: should use fobj? What about creating a method like json.dumps?
 
     if filename_or_fobj is not None:
         _, fobj = get_filename_and_fobj(filename_or_fobj, mode='wb')
@@ -89,7 +87,9 @@ def export_to_csv(table, filename_or_fobj=None, encoding='utf-8',
         fobj = BytesIO()
 
     writer = unicodecsv.writer(fobj, encoding=encoding, dialect=dialect)
+
     for row in serialize(table, *args, **kwargs):
+        # TODO: may add some callback here
         writer.writerow(row)
 
     if filename_or_fobj is not None:
