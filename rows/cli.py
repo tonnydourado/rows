@@ -89,10 +89,11 @@ def cli():
 @click.option('--order-by')
 @click.option('--import-fields')
 @click.option('--export-fields')
+@click.option('--samples', default=1000)
 @click.argument('source')
 @click.argument('destination')
 def convert(input_encoding, output_encoding, input_locale, output_locale,
-            verify_ssl, order_by, import_fields, export_fields,
+            verify_ssl, order_by, import_fields, export_fields, samples,
             source, destination):
 
     # TODO: may use sys.stdout.encoding if output_file = '-'
@@ -107,11 +108,13 @@ def convert(input_encoding, output_encoding, input_locale, output_locale,
         with rows.locale_context(input_locale):
             table = _import_table(source, encoding=input_encoding,
                                   verify_ssl=verify_ssl,
-                                  import_fields=import_fields)
+                                  import_fields=import_fields,
+                                  lazy=True, samples=samples)
     else:
         table = _import_table(source, encoding=input_encoding,
                               verify_ssl=verify_ssl,
-                              import_fields=import_fields)
+                              import_fields=import_fields,
+                              lazy=True, samples=samples)
 
     if order_by is not None:
         order_by = _get_field_names(order_by,
@@ -295,13 +298,14 @@ def print_(input_encoding, output_encoding, input_locale, output_locale,
 @click.option('--output-encoding')
 @click.option('--input-locale')
 @click.option('--output-locale')
+@click.option('--samples', default=1000)
 @click.option('--verify-ssl', default=True, type=bool)
 @click.option('--fields')
 @click.option('--output')
 @click.argument('query', required=True)
 @click.argument('sources', nargs=-1, required=True)
 def query(input_encoding, output_encoding, input_locale, output_locale,
-          verify_ssl, fields, output, query, sources):
+        samples, verify_ssl, fields, output, query, sources):
 
     # TODO: may use sys.stdout.encoding if output_file = '-'
     output_encoding = output_encoding or sys.stdout.encoding or \
@@ -320,31 +324,37 @@ def query(input_encoding, output_encoding, input_locale, output_locale,
         if source.plugin_name != 'sqlite':
             if input_locale is not None:
                 with rows.locale_context(input_locale):
-                    table = import_from_source(source, DEFAULT_INPUT_ENCODING)
+                    table = import_from_source(source, DEFAULT_INPUT_ENCODING,
+                            lazy=True, samples=samples)
             else:
-                table = import_from_source(source, DEFAULT_INPUT_ENCODING)
+                table = import_from_source(source, DEFAULT_INPUT_ENCODING,
+                        lazy=True, samples=samples)
 
             sqlite_connection = sqlite3.Connection(':memory:')
             rows.export_to_sqlite(table,
                                   sqlite_connection,
                                   table_name='table1')
-            result = rows.import_from_sqlite(sqlite_connection, query=query)
+            result = rows.import_from_sqlite(sqlite_connection, query=query,
+                    lazy=True, samples=samples)
 
         else:
             # Optimization: query the SQLite database directly
             result = import_from_source(source,
                                         DEFAULT_INPUT_ENCODING,
-                                        query=query)
+                                        query=query,
+                                        lazy=True, samples=samples)
 
     else:
         if input_locale is not None:
             with rows.locale_context(input_locale):
                 tables = [_import_table(source, encoding=input_encoding,
-                                        verify_ssl=verify_ssl)
+                                        verify_ssl=verify_ssl, lazy=True,
+                                        samples=samples)
                           for source in sources]
         else:
             tables = [_import_table(source, encoding=input_encoding,
-                                    verify_ssl=verify_ssl)
+                                    verify_ssl=verify_ssl, lazy=True,
+                                    samples=samples)
                       for source in sources]
 
         sqlite_connection = sqlite3.Connection(':memory:')
@@ -353,7 +363,8 @@ def query(input_encoding, output_encoding, input_locale, output_locale,
                                   sqlite_connection,
                                   table_name='table{}'.format(index))
 
-        result = rows.import_from_sqlite(sqlite_connection, query=query)
+        result = rows.import_from_sqlite(sqlite_connection, query=query,
+                lazy=True, samples=samples)
 
     if output is None:
         fobj = BytesIO()
