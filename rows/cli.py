@@ -87,21 +87,31 @@ def cli():
 @click.option('--output-locale')
 @click.option('--verify-ssl', default=True, type=bool)
 @click.option('--order-by')
+@click.option('--import-fields')
+@click.option('--export-fields')
 @click.argument('source')
 @click.argument('destination')
 def convert(input_encoding, output_encoding, input_locale, output_locale,
-            verify_ssl, order_by, source, destination):
+            verify_ssl, order_by, import_fields, export_fields,
+            source, destination):
 
     # TODO: may use sys.stdout.encoding if output_file = '-'
     output_encoding = output_encoding or DEFAULT_OUTPUT_ENCODING
 
+    if import_fields is not None:
+        import_fields = make_header(import_fields.split(','), permit_not=False)
+    if export_fields is not None:
+        export_fields = make_header(export_fields.split(','), permit_not=False)
+
     if input_locale is not None:
         with rows.locale_context(input_locale):
             table = _import_table(source, encoding=input_encoding,
-                                  verify_ssl=verify_ssl)
+                                  verify_ssl=verify_ssl,
+                                  import_fields=import_fields)
     else:
         table = _import_table(source, encoding=input_encoding,
-                              verify_ssl=verify_ssl)
+                              verify_ssl=verify_ssl,
+                              import_fields=import_fields)
 
     if order_by is not None:
         order_by = _get_field_names(order_by,
@@ -112,9 +122,11 @@ def convert(input_encoding, output_encoding, input_locale, output_locale,
 
     if output_locale is not None:
         with rows.locale_context(output_locale):
-            export_to_uri(table, destination, encoding=output_encoding)
+            export_to_uri(table, destination, encoding=output_encoding,
+                    export_fields=export_fields)
     else:
-        export_to_uri(table, destination, encoding=output_encoding)
+        export_to_uri(table, destination, encoding=output_encoding,
+                export_fields=export_fields)
 
 
 @cli.command(help='Join tables from `source` URIs using `key(s)` to group '
