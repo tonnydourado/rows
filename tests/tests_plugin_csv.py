@@ -100,6 +100,25 @@ class PluginCsvTestCase(utils.RowsTestMixIn, unittest.TestCase):
         call_args = mocked_create_table.call_args_list[0]
         self.assertEqual(data, list(call_args[0][0]))
 
+    def test_import_from_csv_discover_dialect_decode_error(self):
+
+        # Create a 1024-bytes line (if encoded to ASCII, UTF-8 etc.)
+        line = '"' + ('a' * 508) + '", "' + ('b' * 508) + '"\r\n'
+        lines = 256 * line  # 256KiB
+
+        # Now change the last byte (in the 256KiB sample) to have half of a
+        # character representation (when encoded to UTF-8)
+        data = lines[:-3] + '++Á"\r\n'
+        data = data.encode('utf-8')
+
+        # Should not raise `UnicodeDecodeError`
+        table = rows.import_from_csv(BytesIO(data), encoding='utf-8',
+                sample_size=262144)
+
+        last_row = table[-1]
+        last_column = 'b' * 508
+        self.assertEqual(getattr(last_row, last_column), 'b' * 508 + '++Á')
+
     @mock.patch('rows.plugins.plugin_csv.create_table')
     def test_import_from_csv_force_dialect(self, mocked_create_table):
         data, lines = make_csv_data(quote_char="'",
@@ -134,6 +153,30 @@ class PluginCsvTestCase(utils.RowsTestMixIn, unittest.TestCase):
         self.assertEqual(table[0].field2other, 'row1value2')
         self.assertEqual(table[1].field1samefield, 'row2value1')
         self.assertEqual(table[1].field2other, 'row2value2')
+
+    def test_detect_weird_dialect(self):
+        temp = tempfile.NamedTemporaryFile(delete=False)
+        filename = '{}.{}'.format(temp.name, self.file_extension)
+        self.files_to_delete.append(filename)
+
+        # If the sniffer reads only the first line, it will think the delimiter
+        # is ',' instead of ';'
+        encoding = 'utf-8'
+        data = BytesIO(textwrap.dedent('''
+            field1|field2|field3|field4
+            1|2|3|4
+            5|6|7|8
+            9|0|1|2
+            ''').strip().encode(encoding))
+
+        table = rows.import_from_csv(data, encoding=encoding, lazy=False)
+        self.assertEqual(table.field_names,
+                         ['field1', 'field2', 'field3', 'field4'])
+
+        expected = [[1, 2, 3, 4], [5, 6, 7, 8], [9, 0, 1, 2]]
+        for expected_data, row in zip(expected, table):
+            row = [row.field1, row.field2, row.field3, row.field4]
+            self.assertEqual(expected_data, row)
 
     def test_detect_dialect_using_json(self):
         temp = tempfile.NamedTemporaryFile(delete=False)
